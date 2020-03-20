@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.board.mappers.article.ArticleMapper">
+
+    <resultMap id="ArticleResultMap" type="ArticleVO">
+        <id property="articleNo" column="article_no"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="writer" column="writer"/>
+        <result property="regDate" column="regdate"/>
+        <result property="viewCnt" column="viewcnt"/>
+    </resultMap>
+
+    <insert id="create">
+        INSERT INTO tbl_article
+             ( article_no
+             , title
+             , content
+             , writer
+             , regdate
+             , viewcnt)
+        VALUES ( #{articleNo}
+               , #{title}
+               , #{content}
+               , #{writer}
+               , #{regDate}
+               , #{viewCnt})
+    </insert>
+
+    <select id="read" resultMap="ArticleResultMap">
+        SELECT article_no
+             , title
+             , content
+             , writer
+             , regdate
+             , viewcnt
+          FROM tbl_article
+         WHERE article_no = #{articleNO}
+    </select>
+
+    <update id="update">
+        UPDATE tbl_article
+           SET title   = #{title}
+             , content = #{content}
+         WHERE article_no = #{articleNo}
+    </update>
+
+    <delete id="delete">
+        DELETE
+          FROM tbl_article
+         WHERE article_no = #{articleNo}
+    </delete>
+
+    <select id="listAll" resultMap="ArticleResultMap">
+        <![CDATA[
+        SELECT article_no
+             , title
+             , content
+             , writer
+             , regdate
+             , viewcnt
+          FROM tbl_article
+         WHERE article_no > 0
+         ORDER BY article_no DESC
+                , regdate    DESC
+        ]]>
+    </select>
+
+    <!--
+    resultType을 typeAliases을 통해 간결하게 작성하는 법과 자바객체의 필드변수명과 DB의 컬럼명이 불일치할 경우의 처리방법 두가지이다.
+
+    첫번째는 Mapper를 사용하는데 있어 매번 parameterType이나 resultType을 패키지까지 포함된 클래스명을 작성하는 것이 상당히 번거롭다.
+    그래서 MyBatis 설정파일인 mybatis-config.xml에서 <typeAliases>를 아래와 같이 설정하여 Mapper에서 resultType을 간결하게 작성할 수 있다.
+
+    두번째는 자바 객체의 필드변수명과 DB 컬럼명이 불일치할 경우 발생하는 문제이다.
+    책에서는 자바객체의 변수와 DB 컬럼명이 일치하게 나오지만 나의 경우는 자바변수는 카멜 표기법을, DB 컬럼명의 경우 스내이크 표기법을 따르고 있다.
+    이렇게 별다른 설정이 없다면 select 쿼리의 경우 원하는 껼과를 가져올 수가 없게 된다.
+    그래서 select 쿼리의 원하는 결과를 가져오기 위해 SQL Aliases를 사용해 칼럼명 AS 필드명과 같은 형식으로 SQL을 작성해주면 된다.
+    위의 코드처럼 자바 객체의 필드변수와 DB 컬럼명이 불일치하는게 1개이기 때문에 AS를 사용함으로써 간단하게 처리할 수 있다.
+    하지만 만약 필드변수와 컬럼명의 불일치하는게 많다면 매번 SQL을 작성할 때마다 AS를 붙여 일치시켜야하는 번거로움이 생긴다.
+    이러한 번거로움을 해결하기 위해 resultMap을 통해 자바변수명과 DB 컬럼명을 일치시키는 작업을 해주고,
+    <select> 태그의 resultType 속성 대신 resultMap 속성으로 변경해주면 해결할 수 있다.
+    -->
+</mapper>

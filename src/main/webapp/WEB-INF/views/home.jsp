@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kang
-  Date: 2020/03/18
-  Time: 21:56
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <%@include file="include/head.jsp"%>
 <!--
@@ -43,8 +37,8 @@ desired effect
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Page Header
-                <small>Optional description</small>
+                메인 페이지
+                <small>자세한 사항은 아래와 같습니다.</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -58,6 +52,7 @@ desired effect
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
+            메인 페이지 화면입니다.
 
         </section>
         <!-- /.content -->
