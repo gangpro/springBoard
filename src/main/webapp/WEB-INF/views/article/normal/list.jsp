@@ -1,17 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 
-<%@ include file="../include/head.jsp"%>
+<%@ include file="../../include/head.jsp"%>
 
 <body class="hold-transition skin-blue sidebar-mini layout-boxed">
 
 <div class="wrapper">
 
     <!-- Main Header -->
-    <%@ include file="../include/main_header.jsp"%>
+    <%@ include file="../../include/main_header.jsp"%>
 
     <!-- Left side column. contains the logo and sidebar -->
-    <%@ include file="../include/left_column.jsp"%>
+    <%@ include file="../../include/left_column.jsp"%>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -73,18 +73,19 @@
     <!-- /.content-wrapper -->
 
     <!-- Main Footer -->
-    <%@ include file="../include/main_footer.jsp"%>
+    <%@ include file="../../include/main_footer.jsp"%>
 
 </div>
 <!-- ./wrapper -->
-<%@ include file="../include/plugin_js.jsp"%>
+<%@ include file="../../include/plugin_js.jsp"%>
 <script>
-    var result = "${msg}";
-    if (result == "regSuccess") {
+    const result = "${msg}";
+
+    if (result === "regSuccess") {
         alert("게시글 등록이 완료되었습니다.");
-    } else if (result == "modSuccess") {
+    } else if (result === "modSuccess") {
         alert("게시글 수정이 완료되었습니다.");
-    } else if (result == "delSuccess") {
+    } else if (result === "delSuccess") {
         alert("게시글 삭제가 완료되었습니다.");
     }
 </script>
