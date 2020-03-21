@@ -2,6 +2,7 @@ package org.example.board.article.persistence;
 
 import org.apache.ibatis.session.SqlSession;
 import org.example.board.article.domain.ArticleVO;
+import org.example.board.commons.paging.Criteria;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -49,5 +50,24 @@ public class ArticleDAOImpl implements ArticleDAO {
     @Override
     public List<ArticleVO> listAll() {
         return sqlSession.selectList(NAMESPACE + ".listAll");
+    }
+
+    // 페이징 처리 구현 클래스
+    @Override
+    public List<ArticleVO> listPaging(int page) throws Exception {
+
+        if (page <= 0) {
+            page = 1;
+        }
+
+        page = (page - 1) * 10;
+
+        return sqlSession.selectList(NAMESPACE + ".listPaging", page);
+    }
+
+    // 페이징 처리 + Criteria 타입의 변수 구현 클래스
+    @Override
+    public List<ArticleVO> listCriteria(Criteria criteria) throws Exception {
+        return sqlSession.selectList(NAMESPACE + ".listCriteria", criteria);
     }
 }

@@ -2,6 +2,7 @@ package org.example.board.article.service;
 
 import org.example.board.article.domain.ArticleVO;
 import org.example.board.article.persistence.ArticleDAO;
+import org.example.board.commons.paging.Criteria;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -47,4 +48,11 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleVO> listAll() throws Exception {
         return articleDAO.listAll();
     }
+
+    // 페이징 목록 메서드 구현
+    @Override
+    public List<ArticleVO> listCriteria(Criteria criteria) throws Exception {
+        return articleDAO.listCriteria(criteria);
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.example.board.article.persistence;
 
 import org.example.board.article.domain.ArticleVO;
+import org.example.board.commons.paging.Criteria;
 
 import java.util.List;
 
@@ -21,5 +22,11 @@ public interface ArticleDAO {
 
     // 조회
     List<ArticleVO> listAll() throws Exception;
+
+    // 페이징 처리
+    List<ArticleVO> listPaging(int page) throws Exception;
+
+    // 페이징 처리(매개변수를 Criteria 타입의 변수를 가진 게시글 페이징 목록 메서드를 인터페이스에 선언)
+    List<ArticleVO> listCriteria(Criteria criteria) throws Exception;
 
 }

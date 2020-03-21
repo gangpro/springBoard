@@ -1,6 +1,7 @@
 package org.example.board.article.service;
 
 import org.example.board.article.domain.ArticleVO;
+import org.example.board.commons.paging.Criteria;
 
 import java.util.List;
 
@@ -21,5 +22,8 @@ public interface ArticleService {
 
     // 조회
     List<ArticleVO> listAll() throws Exception;
+
+    // 페이징 목록 메서드 추가
+    List<ArticleVO> listCriteria(Criteria criteria) throws Exception;
 
 }
