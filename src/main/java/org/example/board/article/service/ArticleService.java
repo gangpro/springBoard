@@ -26,4 +26,7 @@ public interface ArticleService {
     // 페이징 목록 메서드 추가
     List<ArticleVO> listCriteria(Criteria criteria) throws Exception;
 
+    // 페이징 전체 게시글 갯수
+    int countArticles(Criteria criteria) throws Exception;
+
 }

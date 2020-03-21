@@ -29,4 +29,7 @@ public interface ArticleDAO {
     // 페이징 처리(매개변수를 Criteria 타입의 변수를 가진 게시글 페이징 목록 메서드를 인터페이스에 선언)
     List<ArticleVO> listCriteria(Criteria criteria) throws Exception;
 
+    // 페이징 전체 게시글 갯수
+    int countArticles(Criteria criteria) throws Exception;
+
 }

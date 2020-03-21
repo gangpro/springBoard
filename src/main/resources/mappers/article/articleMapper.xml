@@ -103,6 +103,15 @@
         ]]>
     </select>
 
+    <!-- 페이징 전체 게시글 갯수 처리 -->
+    <select id="countArticles" resultType="int">
+        <![CDATA[
+        SELECT COUNT(article_no)
+        FROM tbl_article
+        WHERE article_no > 0
+        ]]>
+    </select>
+
     <!--
     resultType을 typeAliases을 통해 간결하게 작성하는 법과 자바객체의 필드변수명과 DB의 컬럼명이 불일치할 경우의 처리방법 두가지이다.
 
