@@ -49,15 +49,15 @@ public class PageMaker {
         next = endPage * criteria.getPerPageNum() >= totalCount ? false : true;
     }
 
-//    // URI 자동 생성
-//    public String makeQuery(int page) {
-//        UriComponents uriComponents = UriComponentsBuilder.newInstance()
-//                .queryParam("page", page)
-//                .queryParam("perPageNum", criteria.getPerPageNum())
-//                .build();
-//
-//        return uriComponents.toUriString();
-//    }
+    // URI 자동 생성
+    public String makeQuery(int page) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .queryParam("page", page)
+                .queryParam("perPageNum", criteria.getPerPageNum())
+                .build();
+
+        return uriComponents.toUriString();
+    }
 //
 //    // 검색조건과 검색키워드를 처리를 메서드
 //    public String makeSearch(int page) {
