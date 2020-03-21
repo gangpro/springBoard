@@ -3,6 +3,7 @@ package org.example.board.article.persistence;
 import org.apache.ibatis.session.SqlSession;
 import org.example.board.article.domain.ArticleVO;
 import org.example.board.commons.paging.Criteria;
+import org.example.board.commons.paging.SearchCriteria;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -54,7 +55,7 @@ public class ArticleDAOImpl implements ArticleDAO {
 
     // 페이징 처리 구현 클래스
     @Override
-    public List<ArticleVO> listPaging(int page) throws Exception {
+    public List<ArticleVO> listPaging(int page) {
 
         if (page <= 0) {
             page = 1;
@@ -67,14 +68,26 @@ public class ArticleDAOImpl implements ArticleDAO {
 
     // 페이징 처리 + Criteria 타입의 변수 구현 클래스
     @Override
-    public List<ArticleVO> listCriteria(Criteria criteria) throws Exception {
+    public List<ArticleVO> listCriteria(Criteria criteria) {
         return sqlSession.selectList(NAMESPACE + ".listCriteria", criteria);
     }
 
     // 페이징 전체 게시글 갯수 처리
     @Override
-    public int countArticles(Criteria criteria) throws Exception {
+    public int countArticles(Criteria criteria) {
         return sqlSession.selectOne(NAMESPACE + ".countArticles", criteria);
+    }
+
+    // 검색된 목록 추상 메서드
+    @Override
+    public List<ArticleVO> listSearch(SearchCriteria searchCriteria) {
+        return sqlSession.selectList(NAMESPACE + ".listSearch", searchCriteria);
+    }
+
+    // 검색된 게시글의 갯수를 리턴하는 추상 메서드 선언
+    @Override
+    public int countSearchedArticles(SearchCriteria searchCriteria) {
+        return sqlSession.selectOne(NAMESPACE + ".countSearchedArticles", searchCriteria);
     }
 
 }

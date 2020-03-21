@@ -2,6 +2,7 @@ package org.example.board.article.persistence;
 
 import org.example.board.article.domain.ArticleVO;
 import org.example.board.commons.paging.Criteria;
+import org.example.board.commons.paging.SearchCriteria;
 
 import java.util.List;
 
@@ -31,5 +32,11 @@ public interface ArticleDAO {
 
     // 페이징 전체 게시글 갯수
     int countArticles(Criteria criteria) throws Exception;
+
+    // 검색된 목록
+    List<ArticleVO> listSearch(SearchCriteria searchCriteria) throws Exception;
+
+    // 검색된 게시글의 갯수를 리턴하는 추상 메서드 선언
+    int countSearchedArticles(SearchCriteria searchCriteria) throws Exception;
 
 }

@@ -3,6 +3,7 @@ package org.example.board.article;
 import org.example.board.article.persistence.ArticleDAO;
 import org.example.board.article.domain.ArticleVO;
 import org.example.board.commons.paging.Criteria;
+import org.example.board.commons.paging.SearchCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -117,7 +118,7 @@ public class ArticleDAOTest {
     // 테스트 실행 후
     //= INFO : org.example.board.article.ArticleDAOTest - /article/read?articleNo=12&perPageNum=20
     // UriComponents 클래스를 통해 path 나 query 에 해당하는
-    // 문자열을 추가해서 원하는 URI 를 생성할 수가 있다.
+    // 문자열을 추가해서 원하는 URI 를 생성할 수가 있다.ㅇㄹㅇㄹㅇ
 
     // 페이징 처리 개선 URI test2
     @Test
@@ -139,5 +140,26 @@ public class ArticleDAOTest {
     //= INFO : org.example.board.article.ArticleDAOTest - /article/read?articleNo=12&perPageNum=20
     //= INFO : org.example.board.article.ArticleDAOTest - /article/read?articleNo=12&perPageNum=20
 
+    // 검색 관련 동적 SQL 테스트
+    @Test
+    public void testDynamic1() throws Exception {
+
+        SearchCriteria searchCriteria = new SearchCriteria();
+        searchCriteria.setPage(1);
+        searchCriteria.setKeyword("999");
+        searchCriteria.setSearchType("t");
+
+        logger.info("======================");
+
+        List<ArticleVO> articles = articleDAO.listSearch(searchCriteria);
+
+        for (ArticleVO article : articles) {
+            logger.info(article.getArticleNo() + " : " + article.getTitle());
+        }
+
+        logger.info("======================");
+
+        logger.info("searched articles count : " + articleDAO.countSearchedArticles(searchCriteria));
+    }
 
 }
