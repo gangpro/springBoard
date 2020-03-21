@@ -1,5 +1,6 @@
 package org.example.board.reply;
 
+import org.example.board.commons.paging.Criteria;
 import org.example.board.reply.persistence.ReplyDAO;
 import org.example.board.reply.domain.ReplyVO;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring-config/applicationContext.xml"})
@@ -54,6 +56,20 @@ public class ReplyDAOTest {
     @Test
     public void testReplyDelete() throws Exception {
         replyDAO.delete(3);
+    }
+
+    // 댓글 페이징 테스트
+    @Test
+    public void testReplyPaging() throws Exception {
+        Criteria criteria = new Criteria();
+        criteria.setPerPageNum(20);
+        criteria.setPage(1);
+
+        List<ReplyVO> replies = replyDAO.listPaging(1000, criteria);
+
+        for(ReplyVO reply : replies) {
+            logger.info(reply.getReplyNo() + " : " + reply.getReplyText());
+        }
     }
 
 }

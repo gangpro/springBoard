@@ -1,6 +1,5 @@
 package org.example.board.reply.service;
 
-import org.example.board.article.persistence.ArticleDAO;
 import org.example.board.commons.paging.Criteria;
 import org.example.board.reply.persistence.ReplyDAO;
 import org.example.board.reply.domain.ReplyVO;
@@ -14,12 +13,9 @@ public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyDAO replyDAO;
 
-    private final ArticleDAO articleDAO;
-
     @Inject
-    public ReplyServiceImpl(ReplyDAO replyDAO, ArticleDAO articleDAO) {
+    public ReplyServiceImpl(ReplyDAO replyDAO) {
         this.replyDAO = replyDAO;
-        this.articleDAO = articleDAO;
     }
 
     // 댓글 목록
@@ -44,6 +40,18 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public void removeReply(Integer replyNo) throws Exception {
         replyDAO.delete(replyNo);
+    }
+
+    // 댓글 페이징 목록
+    @Override
+    public List<ReplyVO> getRepliesPaging(Integer articleNo, Criteria criteria) throws Exception {
+        return replyDAO.listPaging(articleNo, criteria);
+    }
+
+    // 댓글 페이징 카운팅
+    @Override
+    public int countReplies(Integer articleNo) throws Exception {
+        return replyDAO.countReplies(articleNo);
     }
 
 }

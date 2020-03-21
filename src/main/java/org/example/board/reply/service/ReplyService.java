@@ -13,4 +13,8 @@ public interface ReplyService {
     void modifyReply(ReplyVO replyVO) throws Exception;
     void removeReply(Integer replyNo) throws Exception;
 
+    // 댓글 페이징 처리
+    List<ReplyVO> getRepliesPaging(Integer articleNo, Criteria criteria) throws Exception;
+    int countReplies(Integer articleNo) throws Exception;
+
 }

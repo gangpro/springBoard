@@ -67,4 +67,28 @@
               WHERE reply_no = #{replyNo}
     </delete>
 
+    <!-- 댓글 페이징 목록  -->
+    <select id="listPaging" resultMap="ReplyResultMap">
+        SELECT
+               reply_no
+             , article_no
+             , reply_text
+             , reply_writer
+             , reg_date
+             , update_date
+          FROM tbl_reply
+         WHERE article_no = #{articleNo}
+         ORDER BY reply_no DESC
+         LIMIT #{criteria.pageStart}
+             , #{criteria.perPageNum}
+    </select>
+
+    <!-- 댓글 페이징 카운팅 -->
+    <select id="countReplies" resultType="int">
+        SELECT
+               COUNT(article_no)
+          FROM tbl_reply
+         WHERE article_no = #{articleNo}
+    </select>
+
 </mapper>

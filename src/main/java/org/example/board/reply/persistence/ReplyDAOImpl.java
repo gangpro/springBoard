@@ -1,11 +1,14 @@
 package org.example.board.reply.persistence;
 
 import org.apache.ibatis.session.SqlSession;
+import org.example.board.commons.paging.Criteria;
 import org.example.board.reply.domain.ReplyVO;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ReplyDAOImpl implements ReplyDAO {
@@ -42,6 +45,23 @@ public class ReplyDAOImpl implements ReplyDAO {
     @Override
     public void delete(Integer replyNo) throws Exception {
         sqlSession.delete(NAMESPACE + ".delete", replyNo);
+    }
+
+    // 댓글 페이징 목록
+    @Override
+    public List<ReplyVO> listPaging(Integer articleNo, Criteria criteria) throws Exception {
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("articleNo", articleNo);
+        paramMap.put("criteria", criteria);
+
+        return sqlSession.selectList(NAMESPACE + ".listPaging", paramMap);
+    }
+
+    // 댓글 페이징 카운팅
+    @Override
+    public int countReplies(Integer articleNo) throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".countReplies", articleNo);
     }
 
 }
