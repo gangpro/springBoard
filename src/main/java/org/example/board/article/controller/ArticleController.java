@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -113,7 +114,7 @@ public class ArticleController {
     @RequestMapping(value = "/listCriteria", method = RequestMethod.GET)
     public String listCriteria(Model model, Criteria criteria) throws Exception {
 
-        logger.info("normal listCriteria() ...");
+        logger.info("listCriteria() ...");
 
         model.addAttribute("articles", articleService.listCriteria(criteria));
 
@@ -124,7 +125,7 @@ public class ArticleController {
     @RequestMapping(value = "/listPaging", method = RequestMethod.GET)
     public String list(Model model, Criteria criteria) throws Exception {   // Criteria, Model 타입의 변수 criteria 와 model 을 파라미터로 상요한다.
 
-        logger.info("paging list() called ...");
+        logger.info("listPaging() called ...");
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
@@ -135,6 +136,64 @@ public class ArticleController {
         model.addAttribute("pageMaker", pageMaker);
 
         return "/article/list_paging";
+    }
+
+    // 조회(개선: 목록 페이지 정보 유지)
+    @RequestMapping(value = "/readPaging", method = RequestMethod.GET)
+    public String readPaging(@RequestParam("articleNo") int articleNo,
+                             @ModelAttribute("criteria") Criteria criteria,
+                             Model model) throws Exception {
+
+        logger.info("readPaging()...");
+
+        model.addAttribute("article", articleService.read(articleNo));
+
+        return "/article/read_paging";
+    }
+
+    // 수정 페이지 이동(개선: 목록 페이지 정보 유지)
+    @RequestMapping(value = "/modifyPaging", method = RequestMethod.GET)
+    public String modifyGETPaging(@RequestParam("articleNo") int articleNo,
+                                  @ModelAttribute("criteria") Criteria criteria,
+                                  Model model) throws Exception {
+
+        logger.info("modifyGetPaging()...");
+
+        model.addAttribute("article", articleService.read(articleNo));
+
+        return "/article/modify_paging";
+    }
+
+    // 수정 페이지 처리(개선: 목록 페이지 정보 유지)
+    @RequestMapping(value = "/modifyPaging", method = RequestMethod.POST)
+    public String modifyPOSTPaging(ArticleVO articleVO,
+                                   Criteria criteria,
+                                   RedirectAttributes redirectAttributes) throws Exception {
+
+        logger.info("modifyPOSTPaging()...");
+
+        articleService.update(articleVO);
+        redirectAttributes.addFlashAttribute("page", criteria.getPage());
+        redirectAttributes.addFlashAttribute("perPageNum",criteria.getPerPageNum());
+        redirectAttributes.addFlashAttribute("msg", "modSuccess");
+
+        return "redirect:/article/listPaging";
+    }
+
+    // 삭제(개선: 목록 페이지 정보 유지)
+    @RequestMapping(value = "/removePaging", method = RequestMethod.POST)
+    public String removePaging(@RequestParam("articleNo") int articleNo,
+                               Criteria criteria,
+                               RedirectAttributes redirectAttributes) throws Exception {
+
+        logger.info("removePaging()...");
+
+        articleService.delete(articleNo);
+        redirectAttributes.addFlashAttribute("page", criteria.getPage());
+        redirectAttributes.addFlashAttribute("perPageNum", criteria.getPerPageNum());
+        redirectAttributes.addFlashAttribute("msg", "delSuccess");
+
+        return "redirect:/article/listPaging";
     }
 
 }

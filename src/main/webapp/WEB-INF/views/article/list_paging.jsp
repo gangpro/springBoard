@@ -51,7 +51,7 @@
                                     <%-- 페이징 처리 --%>
 <%--                                    <td><a href="${path}/article/read?articleNo=${article.articleNo}">${article.title}</a></td>--%>
                                     <%-- 페이징 처리 개선(UriComponentBuilder 이용 방식) --%>
-                                    <td><a href="${path}/article/read${pageMaker.makeQuery(pageMaker.criteria.page)}&articleNo=${article.articleNo}">${article.title}</a></td>
+                                    <td><a href="${path}/article/readPaging${pageMaker.makeQuery(pageMaker.criteria.page)}&articleNo=${article.articleNo}">${article.title}</a></td>
                                     <td>${article.writer}</td>
                                     <td><fmt:formatDate value="${article.regDate}" pattern="yyyy-MM-dd a HH:mm"/></td>
                                     <td><span class="badge bg-red">${article.viewCnt}</span></td>
@@ -99,7 +99,7 @@
                     </div>
                     <div class="box-footer">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-success btn-flat" id="writeBtn" onclick="location.href='write'">
+                            <button type="button" class="btn btn-success btn-flat" id="writeBtn" onclick="location.href='write_paging'">
                                 <i class="fa fa-pencil"> 글쓰기 </i>
                             </button>
                         </div>
@@ -133,7 +133,7 @@
         var targetPage = $(this).attr("href");
         var listPageForm = $("#listPageForm");
         listPageForm.find("[name='page']").val(targetPage);
-        listPageForm.attr("action", "/article/listPaging").attr("method", "get");
+        listPageForm.attr("action", "/article/list_paging").attr("method", "get");
         listPageForm.submit();
     });
 </script>
