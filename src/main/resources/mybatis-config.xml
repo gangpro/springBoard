@@ -2,8 +2,10 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <!-- 해당 *Mapper.xml 에서 resultMap 이나 resultType 을 패키지 경로와 클래스명을 길게 쓰지 않고, 짧게 쓰기 위해 *VO 를 alias 설정 -->
     <typeAliases>
         <typeAlias type="org.example.board.article.domain.ArticleVO" alias="ArticleVO" />
+        <typeAlias type="org.example.board.reply.domain.ReplyVO" alias="ReplyVO" />
     </typeAliases>
 
 </configuration>
