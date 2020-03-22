@@ -64,4 +64,10 @@ public class ReplyDAOImpl implements ReplyDAO {
         return sqlSession.selectOne(NAMESPACE + ".countReplies", articleNo);
     }
 
+    // 댓글의 게시글 번호 조회 메서드 구현
+    @Override
+    public int getArticleNo(Integer replyNo) throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getArticleNo", replyNo);
+    }
+
 }

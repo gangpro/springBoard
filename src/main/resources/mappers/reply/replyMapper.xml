@@ -11,8 +11,8 @@
         <result property="title" column="title"/>
         <result property="content" column="content"/>
         <result property="writer" column="writer"/>
-        <result property="regDate" column="regdate"/>
-        <result property="viewCnt" column="viewcnt"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="viewCnt" column="view_cnt"/>
     </resultMap>
 
     <!-- 댓글 resultMap -->
@@ -89,6 +89,14 @@
                COUNT(article_no)
           FROM tbl_reply
          WHERE article_no = #{articleNo}
+    </select>
+
+    <!-- 댓글의 게시글 번호 조회 -->
+    <select id="getArticleNo" resultType="int">
+        SELECT
+               article_no
+          FROM tbl_reply
+         WHERE reply_no = #{replyNo}
     </select>
 
 </mapper>

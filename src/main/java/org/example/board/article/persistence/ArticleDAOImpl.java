@@ -7,7 +7,9 @@ import org.example.board.commons.paging.SearchCriteria;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // 클래스 생성하고, 메서드를 오버라이딩
 @Repository
@@ -88,6 +90,22 @@ public class ArticleDAOImpl implements ArticleDAO {
     @Override
     public int countSearchedArticles(SearchCriteria searchCriteria) {
         return sqlSession.selectOne(NAMESPACE + ".countSearchedArticles", searchCriteria);
+    }
+
+    // 댓글 갱신 메서드 구현
+    @Override
+    public void updateReplyCnt(Integer articleNo, int amount) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("articleNo", articleNo);
+        paramMap.put("amount", amount);
+
+        sqlSession.update(NAMESPACE + ".updateReplyCnt", paramMap);
+    }
+
+    // 게시글 조회수 증가 메서드 구현
+    @Override
+    public void updateViewCnt(Integer articleNo) {
+        sqlSession.update(NAMESPACE + ".updateViewCnt", articleNo);
     }
 
 }

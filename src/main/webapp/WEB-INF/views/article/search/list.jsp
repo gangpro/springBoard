@@ -53,7 +53,11 @@
                                     <%-- 페이징 처리 개선(UriComponentBuilder 이용 방식) --%>
 <%--                                    <td><a href="${path}/article/search/read${pageMaker.makeQuery(pageMaker.criteria.page)}&articleNo=${article.articleNo}">${article.title}</a></td>--%>
                                     <%-- 검색처리 --%>
-                                    <td><a href="${path}/article/paging/search/read${pageMaker.makeSearch(pageMaker.criteria.page)}&articleNo=${article.articleNo}">${article.title}</a></td>
+                                    <td>
+                                        <a href="${path}/article/paging/search/read${pageMaker.makeSearch(pageMaker.criteria.page)}&articleNo=${article.articleNo}">${article.title}</a>
+                                        <%-- 댓글 조회수 처리 --%>
+                                        <span class="badge bg-teal"><i class="fa fa-comment-o"></i> + ${article.replyCnt}</span>
+                                    </td>
                                     <td>${article.writer}</td>
                                     <td><fmt:formatDate value="${article.regDate}" pattern="yyyy-MM-dd a HH:mm"/></td>
                                     <td><span class="badge bg-red">${article.viewCnt}</span></td>

@@ -1,9 +1,11 @@
 package org.example.board.reply.service;
 
+import org.example.board.article.persistence.ArticleDAO;
 import org.example.board.commons.paging.Criteria;
 import org.example.board.reply.persistence.ReplyDAO;
 import org.example.board.reply.domain.ReplyVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -13,9 +15,14 @@ public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyDAO replyDAO;
 
+    // 댓글 비즈니스 계층의 수정 및 트랜잭션 적용
+    // ArticleDAO 인터페이스를 생성자를 톹ㅇ해 의존성 주입
+    private final ArticleDAO articleDAO;
+
     @Inject
-    public ReplyServiceImpl(ReplyDAO replyDAO) {
+    public ReplyServiceImpl(ReplyDAO replyDAO, ArticleDAO articleDAO) {
         this.replyDAO = replyDAO;
+        this.articleDAO = articleDAO;
     }
 
     // 댓글 목록
@@ -25,9 +32,11 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     // 댓글 등록
+    @Transactional
     @Override
     public void addReply(ReplyVO replyVO) throws Exception {
         replyDAO.create(replyVO);
+        articleDAO.updateReplyCnt(replyVO.getArticleNo(), 1);
     }
 
     // 댓글 수정
@@ -37,9 +46,12 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     // 댓글 삭제
+    @Transactional
     @Override
     public void removeReply(Integer replyNo) throws Exception {
+        int articleNo = replyDAO.getArticleNo(replyNo);
         replyDAO.delete(replyNo);
+        articleDAO.updateReplyCnt(articleNo, -1);
     }
 
     // 댓글 페이징 목록

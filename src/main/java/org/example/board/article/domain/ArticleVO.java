@@ -11,6 +11,7 @@ public class ArticleVO {
     private String writer;      // 작성자
     private Date regDate;       // 작성 날짜
     private int viewCnt;        // 조회수
+    private int replyCnt;       // 댓글 갯수
 
     public Integer getArticleNo() {
         return articleNo;
@@ -60,6 +61,14 @@ public class ArticleVO {
         this.viewCnt = viewCnt;
     }
 
+    public int getReplyCnt() {
+        return replyCnt;
+    }
+
+    public void setReplyCnt(int replyCnt) {
+        this.replyCnt = replyCnt;
+    }
+
     @Override
     public String toString() {
         return "ArticleVO{" +
@@ -69,6 +78,7 @@ public class ArticleVO {
                 ", writer='" + writer + '\'' +
                 ", regDate=" + regDate +
                 ", viewCnt=" + viewCnt +
+                ", replyCnt=" + replyCnt +
                 '}';
     }
 }
