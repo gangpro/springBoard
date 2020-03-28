@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.board.mappers.upload.ArticleFileMapper">
+
+    <!-- 파일 추가 -->
+    <!-- 게시글 테이블에 게시글 내용이 추가되는 동시에 첨부파일 테이블에도 게시글 번호가 같이 저장될 수 있도록 처리하기 위해 게시글 번호는 LAST_INSERT_ID() 를 이용하여 처리 -->
+    <insert id="addFile">
+        INSERT INTO tbl_article_file
+             (
+               file_name
+             , article_no
+             )
+        VALUES
+             (
+               #{fileName}
+             , LAST_INSERT_ID()
+             )
+    </insert>
+
+    <!-- 목록 -->
+    <select id="getArticleFiles" resultType="string">
+        SELECT file_name
+          FROM tbl_article_file
+         WHERE article_no = #{articleNo}
+         ORDER BY reg_date
+    </select>
+
+    <!-- 파일 전체 삭제 -->
+    <delete id="deleteFiles">
+        DELETE FROM tbl_article_file
+         WHERE article_no = #{articleNo}
+    </delete>
+
+    <!-- 파일 삭제 -->
+    <delete id="deleteFile">
+        DELETE FROM tbl_article_file
+         WHERE file_name = #{fileName}
+    </delete>
+
+    <!-- 파일 수정 -->
+    <insert id="replaceFile">
+        INSERT INTO tbl_article_file
+             (
+               file_name
+             , article_no
+             )
+        VALUES
+             (
+               #{fileName}
+             , #{articleNo}
+             )
+    </insert>
+
+    <!-- 파일 개수 -->
+    <update id="updateFileCnt">
+        UPDATE tbl_article
+            SET file_cnt = (
+                             SELECT COUNT(article_no)
+                               FROM tbl_article_file
+                              WHERE article_no = #{articleNo}
+                           )
+         WHERE article_no = #{articleNo}
+    </update>
+
+</mapper>

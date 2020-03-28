@@ -38,6 +38,12 @@
                     <div class="box-body" style="height: 700px">
                         ${article.content}
                     </div>
+
+                    <%--업로드 파일 정보 영역--%>
+                    <div class="box-footer uploadFiles">
+                        <ul class="mailbox-attachments clearfix uploadedFileList"></ul>
+                    </div>
+
                     <div class="box-footer">
                         <div class="user-block">
                             <img class="img-circle img-bordered-sm" src="/dist/img/user1-128x128.jpg" alt="user image">
@@ -230,12 +236,34 @@
     {{/each}}
 </script>
 
+<%--게시글 첨부파일 Handlebars 파일 템플릿--%>
+<%--게시글 첨부파일을 출력하기 위해 Handlebars 파일 템플릿 코드를 아래와 같이 추가한다.--%>
+<%-- 기존 첨부파일 Handlebars와 다른점은 <li> 태그에 data-src 속성을 추가하였는데 이 속성을 통해 게시글 삭제할 때 함께 수행할 첨부파일 삭제처리를 위한 정보로 쓰이기 위해서이다. --%>
+
+<script id="fileTemplate" type="text/x-handlebars-template">
+    <li data-src="{{fullName}}">
+        <span class="mailbox-attachment-icon has-img">
+            <img src="{{imgSrc}}" alt="Attachment">
+        </span>
+        <div class="mailbox-attachment-info">
+            <a href="{{originalFileUrl}}" class="mailbox-attachment-name">
+                <i class="fa fa-paperclip"></i> {{originalFileName}}
+            </a>
+        </div>
+    </li>
+</script>
+<script type="text/javascript" src="/resources/dist/js/article_file_upload.js"></script>
+
+
 <!-- 댓글 목록 JS 코드 -->
 <script>
     $(document).ready(function () {
 
         var articleNo = "${article.articleNo}";  // 현재 게시글 번호
         var replyPageNum = 1;                    // 댓글 페이지 번호 초기화
+
+        // 첨부파일 목록
+        getFiles(articleNo);
 
         // 댓글 내용 : 줄바꿈/공백처리
         Handlebars.registerHelper("escape", function (replyText) {  // Handlers 확장 기능 : Handlers.registerHelper() 를 통해 내용의 줄바꿈/공백처리와 댓글 등록일자의 날짜 시간을 변환시켜준다.
@@ -424,10 +452,54 @@
                 }
             });
         });
-    });
 
-    <%--var formObj = ${"form[role='form']"};--%>
-    <%--console.log(formObj);--%>
+
+
+        var formObj = $("form[role='form']");
+        console.log(formObj);
+
+        // 게시글 수정 버튼
+        $(".modBtn").on("click", function () {
+            formObj.attr("action", "/article/paging/search/modify");
+            formObj.attr("method", "get");
+            formObj.submit();
+        });
+
+        // 게시글 삭제 클릭 이벤트
+        // 댓글이 달린 게시글은 삭제처리 되지 않도록 조건문 추가
+        // 해당 게시글의 첨부파일들을 삭제처리하기 위해서 배열에 각각의 첨부파일명을 담아 AJAX 삭제 요청
+        $(".delBtn").on("click", function () {
+
+            // 댓글이 달린 게시글 삭제처리 방지
+            var replyCnt = $(".replyDiv").length;
+            if (replyCnt > 0) {
+                alert("댓글이 달린 게시글은 삭제할수 없습니다.");
+                return;
+            }
+
+            // 첨부파일명들을 배열에 저장
+            var arr = [];
+            $(".uploadedFileList li").each(function () {
+                arr.push($(this).attr("data-src"));
+            });
+            // 첨부파일 삭제 요청
+            if (arr.length > 0) {
+                $.post("/article/file/deleteAll", {files: arr}, function () {
+                });
+            }
+
+            // 삭제 처리
+            formObj.attr("action", "/article/paging/search/remove");
+            formObj.submit();
+        });
+
+        // 게시글 목록 버튼
+        $(".listBtn").on("click", function () {
+            formObj.attr("action", "/article/paging/search/list");
+            formObj.attr("method", "get");
+            formObj.submit();
+        });
+    });
 </script>
 
 </body>

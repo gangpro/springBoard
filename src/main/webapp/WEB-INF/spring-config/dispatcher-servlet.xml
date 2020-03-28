@@ -27,5 +27,13 @@
     <!--AOP 설정을 통한 자동적인 Proxy 객체 생성을 위한 설정-->
     <aop:aspectj-autoproxy/>
 
+    <!--파일 업로드 MultipartResolver 설정-->
+    <!-- 스프링에서 파일 업로드를 처리하기 위해서는 파일 업로드로 들어오는 데이터를 처리하는 객체가 필요하기 때문에 아래와 같이 설정해야 한다. -->
+    <!-- 스프링에서 multipartResolver 라고 하는 이 객체의 설정은 웹과 관련 있기 때문에 dispatcher-servlet.xml 에서 설정해준다. -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- maxUploadSize 를 통해 파일의 최대 크기를 10MB 정도로 제한해준다. -->
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+
 </beans>
 

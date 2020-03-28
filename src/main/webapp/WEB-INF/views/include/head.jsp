@@ -21,6 +21,13 @@
     apply the skin class to the body tag so the changes take effect. -->
     <link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css">
 
+
+    <!-- 원본 이미지 파일 출력을 위한 lightbox 라이브러리 적용 -->
+    <!-- 첨부파일이 이미지 타입인 경우 화면에 출력할 때 썸내일을 출력하고, 해당 썸내일을 클릭하면 원본 이미지 파일을 출력해주기 위해서
+     head.jsp 와 plugin_js.jsp 에 Lightbox 플러그인 css 와 js 파일 추가-->
+    <!--lightbox-->
+    <link rel="stylesheet" href="/bower_components/lightbox/css/lightbox.css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

@@ -3,6 +3,15 @@
 
 <%@ include file="../../include/head.jsp"%>
 
+<%--첨부파일CSS--%>
+<style>
+    .fileDrop {
+        width: 100%;
+        height: 200px;
+        border: 2px dotted #0b58a2;
+    }
+</style>
+
 <body class="hold-transition skin-blue sidebar-mini layout-boxed">
 
 <div class="wrapper">
@@ -50,6 +59,20 @@
                                 <label for="writer">작성자</label>
                                 <input class="form-control" id="writer" name="writer">
                             </div>
+                            <%-- 첨부파일 영역 --%>
+                            <div class="form-group">
+                                <div class="fileDrop">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <p class="text-center"><i class="fa fa-paperclip"></i> 첨부파일을 드래그해주세요.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <%-- 첨부파일 영역 --%>
+                        <div class="box-footer">
+                            <ul class="mailbox-attachments clearfix uploadedFileList"></ul>
                         </div>
                         <div class="box-footer">
                             <button type="button" class="btn btn-primary" onclick="location.href='list'"><i class="fa fa-list"></i> 목록</button>
@@ -73,4 +96,55 @@
 </div>
 <!-- ./wrapper -->
 <%@ include file="../../include/plugin_js.jsp"%>
+
+<%-- 첨부파일 AJAX --%>
+<script id="fileTemplate" type="text/x-handlebars-template">
+    <li>
+        <span class="mailbox-attachment-icon has-img">
+            <img src="{{imgSrc}}" alt="Attachment">
+        </span>
+        <div class="mailbox-attachment-info">
+            <a href="{{originalFileUrl}}" class="mailbox-attachment-name">
+                <i class="fa fa-paperclip"></i> {{originalFileName}}
+            </a>
+            <a href="{{fullName}}" class="btn btn-default btn-xs pull-right delBtn">
+                <i class="fa fa-fw fa-remove"></i>
+            </a>
+        </div>
+    </li>
+</script>
+
+<%-- 일반파일의 경우 썸네일 이미지가 없기 때문에 파일 아이콘을 아래와 같은 경로에 추가 --%>
+<script type="text/javascript" src="/resources/dist/js/article_file_upload.js"></script>
+
+<%-- 첨부파일 이벤트 처리 --%>
+<%-- 게시글 저장 버튼을 클릭하면 article_file_upload.js 의 fileSubmit() 메서드를 호출하여 <input type="hidden" /> 태그를 생성하고
+     value 에 업로드 처리한 첨부파일명을 추가시켜 최종적으로 <form> 태그를 submit 처리하게 된다. --%>
+<script>
+    $(document).ready(function () {
+        // 게시글 저장 버튼 클릭 이벤트 처리
+        $("#writeForm").submit(function (event) {
+            event.preventDefault();
+            var that = $(this);
+            filesSubmit(that);
+        });
+
+        // 파일 삭제 버튼 클릭 이벤트
+        $(document).on("click", ".delBtn", function (event) {
+            event.preventDefault();
+            var that = $(this);
+            deleteFileWrtPage(that);
+        });
+
+        // 목록 버튼 클릭 이벤트 처리
+        $(".listBtn").on("click", function () {
+            self.location = "/article/paging/search/list?page=${searchCriteria.page}"
+                + "&perPageNum=${searchCriteria.perPageNum}"
+                + "&searchType=${searchCriteria.searchType}"
+                + "&keyword=${searchCriteria.keyword}";
+        });
+    });
+</script>
+
+
 </body>
